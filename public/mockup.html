@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        html,
+        body,
+        header,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #lienzo {
+            background-color: #000;
+            color: #ccc;
+        }
+        .out {
+            background-color: #999;
+            position: relative;
+            overflow: auto;
+        }
+        .in {
+            width: 3000px;
+
+        }
+        .logos {
+            background-color: rgb(95, 67, 67);
+            position: sticky;
+            top: 21px;
+            left: 0;
+            width: 50px;
+            z-index: 10;
+        }
+        .horario {
+            background-color: rgb(114, 145, 123);
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            height: 20px;
+            padding-left: 51px;
+        }
+            .horario li {
+                display: inline-block;
+            }
+        .canales {
+            background-color: rgb(2, 51, 80);
+            position: absolute;
+            top: 21px;
+            left: 51px;
+        }
+            .canales li {
+                display: inline-block;
+            }
+    </style>
+</head>
+<body>
+    <div id="lienzo">
+        <header>
+            <h1>Cabecera</h1>
+            <p>Otras cosas</p>
+
+<!--
+<picture>
+    <source srcset="https://picsum.photos/500/800"
+        media="screen and (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)">
+    <source srcset="https://picsum.photos/30/20"
+        media="screen and (-webkit-min-device-pixel-ratio: 1), (min-resolution: 92dpi)">
+    <img src="https://picsum.photos/20/30" />
+</picture>
+            @media
+(-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+    /* Retina-specific stuff here */
+}
+window.devicePixelRatio: <span id="res"></span>
+
+
+<script> type="text/javascript">
+    document.querySelector("#res").innerHTML = window.devicePixelRatio
+</script>
+window.devicePixelRatio <span id="res"></span>
+-->
+
+        </header>
+        <section class="out">
+            <div class="in">
+                <ul class="horario">
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                    <li>Hora</li>
+                </ul>
+                <ul class="logos">
+                    <li>Logo</li>
+                    <li>Logo</li>
+                    <li>Logo</li>
+                    <li>Logo</li>
+                    <li>Logo</li>
+                    <li>Logo</li>
+                    <li>Logo</li>
+                    <li>Logo</li>
+                    <li>Logo</li>
+                    <li>Logo</li>
+                    <li>Logo</li>
+                </ul>
+                <ul class="canales">
+                    <li>
+                        <ul>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                        </ul>
+                        <ul>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                        </ul>
+                        <ul>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                            <li>Evento</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+</body>
+</html>

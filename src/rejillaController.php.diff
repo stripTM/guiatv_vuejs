@@ -1,0 +1,22 @@
+diff --git a/laravel/app/Http/Controllers/RejillaController.php b/laravel/app/Http/Controllers/RejillaController.php
+index b5caed4d5..72e49449d 100755
+--- a/laravel/app/Http/Controllers/RejillaController.php
++++ b/laravel/app/Http/Controllers/RejillaController.php
+@@ -695,6 +695,8 @@ class RejillaController
+ 
+                 if (is_array($programas)) {
+                     $data = array();
++                    $primeraHora =  mktime(6, 0, 0, date("m", $this->objeto->getFecha(false)[0]) , date("d", $this->objeto->getFecha(false)[0]), date("Y", $this->objeto->getFecha(false)[0]));
++                    $diaEnPixel = 12; // Conseguir la anchura de 24h = 7200px -> 24 * 60 * 60 / 7200
+                     foreach ($coleccionCadenas as $cadena) {
+ 
+                         $codTV = $cadena->getCodigo() . "-CODE";
+@@ -751,6 +753,8 @@ class RejillaController
+                             $programa['DURACION_VISUAL'] = $elementoEmision->getDuracionRejilla() / 60;
+                             $programa['HORA_INICIO'] = date('H:i', $elementoEmision->getFechaInicioEmision());
+                             $programa['HORA_FIN'] = date('H:i', $elementoEmision->getFechaFinEmision());
++                            $programa['x1'] = intval(($elementoEmision->getFechaInicioEmision() - $primeraHora) / $diaEnPixel);
++                            $programa['x2'] = intval(($elementoEmision->getFechaFinEmision() - $primeraHora) / $diaEnPixel);
+                             $programa['ELEMENTO'] = $elementoEmision->getCodElemento();
+                             $programa['EVENTO'] = $elementoEmision->getCodEventoRejilla();
+ 

@@ -2,7 +2,7 @@
     <section :class="getClass">
         <input type="range" min="0" :max="conf.ancho" name="fechaScroll" v-model="fechaScroll" v-on:change="moverA"/>
         <CabeceraParrilla :fechaSeleccionada="conf.fecha" v-on:setFecha="setFecha"/>
-        <div class="fecha">{{ fechaDDMesYYYY }}</div>
+        <div class="fecha">{{ conf.fecha | DDMesYYYY }}</div>
         <div class="out" ref="lienzoParrilla" v-on:scroll="movidoA">
             <div class="in" :style="getStyleWidth">
                 <Timeline :fechaInicio="this.conf.fechaInicio" :fechaFin="this.conf.fechaFin" :ancho="this.conf.ancho"/>
@@ -80,13 +80,15 @@ export default {
                 width: this.conf.ancho + 'px'
             }
         },
-        fechaDDMesYYYY() {
-            const mes = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciciembre']
-            const fechaH = Fecha.humana(this.conf.fecha)
-            return fechaH.getDate() + ' ' + mes[fechaH.getMonth()] + ' ' + fechaH.getFullYear()
-        },
         getLabelLoadMore() {
             return this.cargando ? 'Cargando…' : 'Cargar más'
+        }
+    },
+    filters: {
+        DDMesYYYY(fecha) {
+            const mes = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciciembre']
+            const fechaH = Fecha.humana(fecha)
+            return fechaH.getDate() + ' ' + mes[fechaH.getMonth()] + ' ' + fechaH.getFullYear()
         }
     },
     methods: {

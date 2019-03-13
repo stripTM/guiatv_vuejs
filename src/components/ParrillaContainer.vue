@@ -142,6 +142,7 @@ export default {
         padding: 0.5rem;
         margin: 0 0.2rem;
         border-radius: 0.2rem;
+        text-transform: capitalize;
     }
     .cabecera .opcion a:link,
     .cabecera .opcion a:visited,

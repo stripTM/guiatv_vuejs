@@ -5,15 +5,30 @@
             :fecha="boton.fecha"
             :selected="boton.selected"
             v-on:selectFecha="selectFecha"/>
+        <SelectorFecha
+            v-if="extraSelectorFecha"
+            v-bind:value="fechaSeleccionada"
+            v-bind:min="fechaMin"
+            v-bind:max="fechaMax"
+            v-on:selectFecha="selectFecha"/>
     </ul>
 </template>
 <script>
 import BotonFecha from './BotonFecha'
+import SelectorFecha from './SelectorFecha'
 import Fecha from '../../lib/Fecha.js'
 export default {
     name: 'CabeceraParrilla',
     props: {
         fechaSeleccionada: {
+            type: Date,
+            required: true
+        },
+        fechaMin: {
+            type: Date,
+            required: true
+        },
+        fechaMax: {
             type: Date,
             required: true
         },
@@ -23,7 +38,8 @@ export default {
         }
     },
     components: {
-        BotonFecha
+        BotonFecha,
+        SelectorFecha
     },
     created() {
 
@@ -31,9 +47,10 @@ export default {
     computed: {
         getBotones() {
             let f = new Date()
-            f.setDate(f.getDate() - 2)
+            const totalLiterales = Math.min(this.diffFechaMinMax() + 1, 9)
+            f.setDate(this.fechaMin.getDate() - 1)
             return Array.from(
-                {length: this.totalDias},
+                {length: totalLiterales},
                 () => {
                     f.setDate(f.getDate() + 1)
                     let fIndice = new Date(f)
@@ -45,9 +62,15 @@ export default {
                         selected: Fecha.mismaFecha(this.fechaSeleccionada, fIndice)
                     }
                 })
+        },
+        extraSelectorFecha() {
+            return this.diffFechaMinMax() >= 9
         }
     },
     methods: {
+        diffFechaMinMax() {
+            return Math.round(Math.abs((this.fechaMin.getTime() - this.fechaMax.getTime())/(24*60*60*1000)))
+        },
         selectFecha(fecha) {
             this.$emit('setFecha', fecha)
         }

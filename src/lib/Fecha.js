@@ -14,14 +14,13 @@ export default {
             f1.getDate() === f2.getDate()
     },
     toDiaSemanaHumana(f) {
-        const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
         const hoy = new Date()
         if (this.mismaFecha(hoy, f)) {
-            return 'Hoy'
+            return 'hoy'
         }
         if (this.mismaFecha(new Date(hoy - 24 * 60 * 60 * 1000), f)) {
-            return 'Ayer'
+            return 'ayer'
         }
-        return dias[f.getDay()]
+        return f.toLocaleString('es-ES', {weekday: 'long'})
     }
 }

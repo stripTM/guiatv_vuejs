@@ -37,9 +37,22 @@ export default {
     ParrillaContainer
   },
   data() {
+    const now = new Date()
+    let inicio = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    inicio.setDate(inicio.getDate() - 1)
+    let fin
+    if(now.getDate() > 15) {
+      fin = new Date(now.getFullYear(), now.getMonth() + 2, 1)
+    }
+    else {
+      fin = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+    }
+
     return {
       conf: {
-        fecha: new Date(),
+        fecha: now,
+        fechaMin: inicio,
+        fechaMax: fin,
         //fecha: new Date(2019,1,22, 5,58,0),
         ancho: 7200, //7200
         limiteCanales: 10 //163
@@ -102,6 +115,8 @@ export default {
         fecha: this.conf.fecha,
         fechaInicio: new Date(fechaHumana.getFullYear(), fechaHumana.getMonth(), fechaHumana.getDate(), 6),
         fechaFin: new Date(fechaHumana.getFullYear(), fechaHumana.getMonth(), fechaHumana.getDate() + 1, 5, 59, 59),
+        fechaMin: this.conf.fechaMin, // Límite de calendario de selección
+        fechaMax: this.conf.fechaMax,
         ancho: parseInt(this.conf.ancho)
       }
     },

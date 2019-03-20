@@ -1,7 +1,11 @@
 <template>
     <section :class="getClass">
         <input type="range" min="0" :max="conf.ancho" name="fechaScroll" v-model="fechaScroll" v-on:change="moverA"/>
-        <CabeceraParrilla :fechaSeleccionada="conf.fecha" v-on:setFecha="setFecha"/>
+        <CabeceraParrilla
+            :fechaSeleccionada="conf.fecha"
+            :fechaMin="conf.fechaMin"
+            :fechaMax="conf.fechaMax"
+            v-on:setFecha="setFecha"/>
         <div class="fecha">{{ conf.fecha | DDMesYYYY }}</div>
         <div class="out" ref="lienzoParrilla" v-on:scroll="movidoA">
             <div class="in" :style="getStyleWidth">
@@ -142,6 +146,7 @@ export default {
         padding: 0.5rem;
         margin: 0 0.2rem;
         border-radius: 0.2rem;
+        text-transform: capitalize;
     }
     .cabecera .opcion a:link,
     .cabecera .opcion a:visited,
@@ -152,6 +157,10 @@ export default {
     }
     .cabecera .selected {
         background-color: #79b800;
+    }
+    .cabecera .extraFecha input[type=date] {
+        position: absolute;
+        visibility: hidden;
     }
     .fecha {
         position: absolute;

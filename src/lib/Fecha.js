@@ -21,6 +21,8 @@ export default {
         if (this.mismaFecha(new Date(hoy - 24 * 60 * 60 * 1000), f)) {
             return 'ayer'
         }
-        return f.toLocaleString('es-ES', {weekday: 'long'})
+        // No compatible con Safari f.toLocaleString('es-ES', {weekday: 'long'})
+        const literalDiaSemana = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
+        return literalDiaSemana[f.getDay()]
     }
 }

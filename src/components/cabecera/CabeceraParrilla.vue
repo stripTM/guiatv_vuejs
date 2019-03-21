@@ -32,9 +32,13 @@ export default {
             type: Date,
             required: true
         },
-        totalDias: {
-            type: Number,
-            default: 9
+        fechaMinBotones: {
+            type: Date,
+            required: true
+        },
+        fechaMaxBotones: {
+            type: Date,
+            required: true
         }
     },
     components: {
@@ -48,14 +52,13 @@ export default {
         getBotones() {
             let f = new Date()
             const totalLiterales = Math.min(this.diffFechaMinMax() + 1, 9)
-            f.setDate(this.fechaMin.getDate() - 1)
+            f.setDate(this.fechaMinBotones.getDate() - 1)
             return Array.from(
                 {length: totalLiterales},
                 () => {
                     f.setDate(f.getDate() + 1)
                     let fIndice = new Date(f)
                     fIndice.setDate(f.getDate())
-                    Fecha.toDiaSemanaHumana(fIndice)
                     return {
                         literal: Fecha.toDiaSemanaHumana(f),
                         fecha: fIndice,

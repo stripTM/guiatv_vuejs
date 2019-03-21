@@ -30,6 +30,7 @@
 // Simulando api de guia
 import ParrillaContainer from './components/ParrillaContainer.vue'
 import Fecha from './lib/Fecha.js'
+import axios from 'axios'
 
 export default {
   name: 'appParrilla',
@@ -38,21 +39,24 @@ export default {
   },
   data() {
     const now = new Date()
-    let inicio = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    inicio.setDate(inicio.getDate() - 1)
+    let inicio = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7, 12, 0, 0)
     let fin
-    if(now.getDate() > 15) {
-      fin = new Date(now.getFullYear(), now.getMonth() + 2, 1)
+    if(now.getDate() >= 15) {
+      fin = new Date(now.getFullYear(), now.getMonth() + 2, 0, 12, 0, 0)
     }
     else {
-      fin = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+      fin = new Date(now.getFullYear(), now.getMonth() + 1, 0, 12, 0, 0)
     }
+    let inicioBotones = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 12, 0, 0)
+    let finBotones = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 6, 12, 0, 0)
 
     return {
       conf: {
         fecha: now,
         fechaMin: inicio,
         fechaMax: fin,
+        fechaMinBotones: inicioBotones,
+        fechaMaxBotones: finBotones,
         //fecha: new Date(2019,1,22, 5,58,0),
         ancho: 7200, //7200
         limiteCanales: 10 //163
@@ -60,7 +64,7 @@ export default {
       parrilla: [],
       ancla: new Date(),
       status: 'init',
-      mostrarSombras: false
+      mostrarSombras: true
     }
   },
   created() {
@@ -74,20 +78,30 @@ export default {
       const fechaH = Fecha.humana(this.conf.fecha)
       const fakeRejilla = fechaH.getDay() % 2
       const endPoint = `rejilla${fakeRejilla}.json?f=${fechaH.toISOString().split('T')[0]}&a=${this.conf.ancho}`
-      fetch(endPoint)
+      axios.get(endPoint)
         .then((response) => {
-          //console.timeLog('depurar carga')
-
-          const datos = response.json()
-          return datos
-        })
-        .then((myJson) => {
-          //console.log("myJson", myJson)
-          this.parrilla = myJson.data
-          //this.parrilla = Object.entries(myJson.data).slice(0,this.conf.limiteCanales).map(entry => entry[1]);
-          //console.timeLog('depurar carga')
+          this.parrilla = response.data.data
           this.status = 'loaded'
         })
+        .catch(() => {
+          this.status = 'error'
+        })
+      /* Fetch nativo
+        fetch(endPoint)
+          .then((response) => {
+            //console.timeLog('depurar carga')
+
+            const datos = response.json()
+            return datos
+          })
+          .then((myJson) => {
+            //console.log("myJson", myJson)
+            this.parrilla = myJson.data
+            //this.parrilla = Object.entries(myJson.data).slice(0,this.conf.limiteCanales).map(entry => entry[1]);
+            //console.timeLog('depurar carga')
+            this.status = 'loaded'
+          })
+      */
     },
     cargarMas() {
       this.conf.limiteCanales += 10
@@ -117,6 +131,8 @@ export default {
         fechaFin: new Date(fechaHumana.getFullYear(), fechaHumana.getMonth(), fechaHumana.getDate() + 1, 5, 59, 59),
         fechaMin: this.conf.fechaMin, // Límite de calendario de selección
         fechaMax: this.conf.fechaMax,
+        fechaMinBotones: this.conf.fechaMinBotones, // Límite de botones de calendario de selección
+        fechaMaxBotones: this.conf.fechaMaxBotones,
         ancho: parseInt(this.conf.ancho)
       }
     },

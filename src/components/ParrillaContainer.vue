@@ -5,6 +5,8 @@
             :fechaSeleccionada="conf.fecha"
             :fechaMin="conf.fechaMin"
             :fechaMax="conf.fechaMax"
+            :fechaMinBotones="conf.fechaMinBotones"
+            :fechaMaxBotones="conf.fechaMaxBotones"
             v-on:setFecha="setFecha"/>
         <div class="fecha">{{ conf.fecha | DDMesYYYY }}</div>
         <div class="out" ref="lienzoParrilla" v-on:scroll="movidoA">
@@ -159,8 +161,9 @@ export default {
         background-color: #79b800;
     }
     .cabecera .extraFecha input[type=date] {
+        margin-left: -27px;
         position: absolute;
-        visibility: hidden;
+        opacity: 0;
     }
     .fecha {
         position: absolute;

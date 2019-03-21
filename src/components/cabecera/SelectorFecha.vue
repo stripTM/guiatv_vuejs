@@ -1,6 +1,6 @@
 <template>
     <li class="extraFecha">
-        <label for="guiaCabeceraFecha"><img src="ico-calendar.png" alt="Seleccionar fecha"/></label>
+        <label for="guiaCabeceraFecha"><img src="/css/i/guiaparrilla/ico-calendar.png" alt="Seleccionar fecha"/></label>
         <input id="guiaCabeceraFecha" type="date"
             v-bind:value="value | toInput"
             v-bind:min="min | toInput"
@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import Fecha from '../../lib/Fecha.js'
 export default {
     name: 'SelectorFecha',
     props: {
@@ -33,7 +34,8 @@ export default {
     },
     filters: {
         toInput(fecha) {
-            return fecha.toISOString().split('T')[0]
+            //return fecha.toISOString().split('T')[0]
+            return Fecha.humana(fecha).toISOString().split('T')[0]
         }
     },
     methods: {

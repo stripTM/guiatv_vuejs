@@ -2,10 +2,10 @@
     <li class="er" :style="getStyle">
         <a v-if="!esCorto" :href="urlFicha">
             <div>
-                <img v-if="esEstreno" src="estreno.png" class="e" alt="Estreno"/>
+                <img v-if="esEstreno" src="/css/i/guiaparrilla/estreno.png" class="e" alt="Estreno"/>
                 <span class="h">{{ eventoRejilla.HORA_INICIO }}</span>&nbsp;<span class="g">{{ eventoRejilla.GENERO }}</span>
             </div>
-            <div class="t">{{ eventoRejilla.TITULO }}<img v-if="esDirecto" src="directo.png" class="d" alt="Directo"/></div>
+            <div class="t">{{ eventoRejilla.TITULO }}<img v-if="esDirecto" src="/css/i/guiaparrilla/directo.png" class="d" alt="Directo"/></div>
         </a>
         <a v-else :href="urlFicha" class="corto">*</a>
     </li>

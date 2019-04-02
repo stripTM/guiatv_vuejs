@@ -1,6 +1,6 @@
 <template>
     <section :class="getClass">
-        <input type="range" min="0" :max="conf.ancho" name="fechaScroll" v-model="fechaScroll" v-on:change="moverA"/>
+        <input type="range" min="0" :max="conf.ancho" name="fechaScrollX" v-model="fechaScrollX"/>
         <CabeceraParrilla
             :fechaSeleccionada="conf.fecha"
             :fechaMin="conf.fechaMin"
@@ -8,9 +8,9 @@
             :fechaMinBotones="conf.fechaMinBotones"
             :fechaMaxBotones="conf.fechaMaxBotones"
             v-on:setFecha="setFecha"/>
-        <div class="fecha">{{ conf.fecha | DDMesYYYY }}</div>
-        <div class="out" ref="lienzoParrilla" v-on:scroll="movidoA">
-            <div class="in" :style="getStyleWidth">
+        <div class="fecha">{{ getDateScroll | DDMesYYYY }}</div>
+        <div class="out" ref="lienzoParrilla">
+            <div ref="track" class="in" :style="getStyleWidth">
                 <Timeline :fechaInicio="this.conf.fechaInicio" :fechaFin="this.conf.fechaFin" :ancho="this.conf.ancho"/>
                 <MarcadorParrilla :conf="conf" />
                 <ul class="logos">
@@ -54,11 +54,17 @@ export default {
     },
     data() {
         return {
-            fechaScroll: 0,
-            observer: null
+            fechaScrollX: 0,
+            fechaScrollY: 0,
+            observer: null,
+            mouseDown: false,
+            dragStartX: 0,
+            dragStaryY: 0,
+            dragDistance: 0
         }
     },
     mounted() {
+        // Carga de canales al llegar al final del scroll
         if ('IntersectionObserver' in window) {
             this.observer = new IntersectionObserver(entries => {
                 const oCargarMas = entries[0];
@@ -70,11 +76,36 @@ export default {
             })
             this.observer.observe(this.$refs.ultimo)
         }
+
+        // Mover horizontalmente con ratón
+        if ('ontouchstart' in window) {
+            this.$refs.track.addEventListener('touchstart', this.handleMouseDown)
+            this.$refs.track.addEventListener('touchend', this.handleMouseUp)
+            this.$refs.track.addEventListener('touchmove', this.handleMouseMove)
+        } else {
+            this.$refs.track.addEventListener('mousedown', this.handleMouseDown)
+            this.$refs.track.addEventListener('mouseup', this.handleMouseUp)
+            this.$refs.track.addEventListener('mousemove', this.handleMouseMove)
+        }
+
         this.moverAAnchor()
     },
     destroyed() {
         if(this.observer) {
             this.observer.disconnect()
+        }
+
+        // Mover horizontalmente con ratón
+        if (this.$refs.track) {
+            if ('ontouchstart' in window) {
+                this.$refs.track.removeEventListener('touchstart', this.handleMouseDown)
+                this.$refs.track.removeEventListener('touchend', this.handleMouseUp)
+                this.$refs.track.removeEventListener('touchmove', this.handleMouseMove)
+            } else {
+                this.$refs.track.removeEventListener('mousedown', this.handleMouseDown)
+                this.$refs.track.removeEventListener('mouseup', this.handleMouseUp)
+                this.$refs.track.removeEventListener('mousemove', this.handleMouseMove)
+            }
         }
     },
     computed: {
@@ -88,22 +119,29 @@ export default {
         },
         getLabelLoadMore() {
             return this.cargando ? 'Cargando…' : 'Cargar más'
+        },
+        getDateScroll() {
+            // = posición marcador / ancho parrilla * (timestamp fin - timestamp inicio ) + timestamp inicio
+            return new Date(this.fechaScrollX / this.conf.ancho * (this.conf.fechaFin.getTime() - this.conf.fechaInicio.getTime()) + this.conf.fechaInicio.getTime())
         }
     },
     filters: {
         DDMesYYYY(fecha) {
             const mes = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciciembre']
-            const fechaH = Fecha.humana(fecha)
-            return fechaH.getDate() + ' ' + mes[fechaH.getMonth()] + ' ' + fechaH.getFullYear()
+            //const fechaH = Fecha.humana(fecha)
+            return fecha.getDate() + ' ' + mes[fecha.getMonth()] + ' ' + fecha.getFullYear()
+        }
+    },
+    watch: {
+        // El scroll de la parrilla no es algo que está presente en el dom, con lo que hay que mantener manualmente el binding
+        fechaScrollX(newFechaScroll) {
+            this.$refs.lienzoParrilla.scrollLeft = newFechaScroll
+        },
+        fechaScrollY(newFechaScroll) {
+            this.$refs.lienzoParrilla.scrollTop = newFechaScroll
         }
     },
     methods: {
-        moverA() {
-            this.$refs.lienzoParrilla.scrollLeft = this.fechaScroll
-        },
-        movidoA() {
-            this.fechaScroll = this.$refs.lienzoParrilla.scrollLeft
-        },
         moverAAnchor() {
             // Pasar de fecha-ancla de tipo Date a pixeles
             // fecha-ancla-normalizada * anchura / fecha-fin-normalizada
@@ -111,18 +149,59 @@ export default {
             // Desplazamos 30 minutos (1/48) para que se vea un poco de contexto
             anclaPx = anclaPx - Math.round (this.conf.ancho / 48)
             if (anclaPx >= 0) {
-                this.fechaScroll = anclaPx
+                this.fechaScrollX = anclaPx
             }
             if (anclaPx >= this.conf.ancho) {
-                this.fechaScroll = this.conf.ancho
+                this.fechaScrollX = this.conf.ancho
             }
-            this.moverA()
         },
         cargarMas() {
             this.$emit('cargarMas')
         },
         setFecha(nuevaFecha) {
             this.$emit('setFecha', nuevaFecha)
+        },
+        handleMouseDown (e) {
+            if (!e.touches) {
+                e.preventDefault()
+            }
+            this.mouseDown = true
+            this.dragStartX = ('ontouchstart' in window) ? e.touches[0].clientX : e.clientX
+            this.dragStartY = ('ontouchstart' in window) ? e.touches[0].clientY : e.clientY
+        },
+        handleMouseMove (e) {
+            if (this.mouseDown) {
+                let positionX = ('ontouchstart' in window) ? e.touches[0].clientX : e.clientX
+                let positionY = ('ontouchstart' in window) ? e.touches[0].clientY : e.clientY
+                let dragDistanceX = positionX - this.dragStartX
+                let dragDistanceY = positionY - this.dragStartY
+
+                /*
+                https://github.com/lukaszflorczak/vue-agile/blob/master/src/Agile.vue
+                if (dragDistanceX > 3 * dragDistanceY) {
+                    this.dragDistance = positionX - this.dragStartX
+                    this.disableScroll()
+                }
+                */
+                this.fechaScrollX -= dragDistanceX
+                this.fechaScrollY -= dragDistanceY
+                this.dragStartX += dragDistanceX
+                this.dragStartY += dragDistanceY
+            }
+        },
+        handleMouseUp () {
+            this.mouseDown = false
+            this.enableScroll()
+        },
+        disableScroll () {
+            document.ontouchmove = function (e) {
+                e.preventDefault()
+            }
+        },
+        enableScroll () {
+            document.ontouchmove = function () {
+                return true
+            }
         }
     }
 }
@@ -165,6 +244,9 @@ export default {
         position: absolute;
         opacity: 0;
     }
+    .cabecera .extraFecha input[type=date]:focus {
+        opacity: 1;
+    }
     .fecha {
         position: absolute;
         z-index: 11;
@@ -185,7 +267,7 @@ export default {
         width: 100vw;
         height: 100vh;
         overflow: auto;
-        scroll-behavior: smooth;
+        /*scroll-behavior: smooth;*/
         position: relative;
         transform: translate(0, 0);
     }

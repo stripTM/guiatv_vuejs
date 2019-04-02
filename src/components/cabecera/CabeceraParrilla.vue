@@ -50,29 +50,25 @@ export default {
     },
     computed: {
         getBotones() {
-            let f = new Date()
             const totalLiterales = Math.min(this.diffFechaMinMax() + 1, 9)
-            f.setDate(this.fechaMinBotones.getDate() - 1)
             return Array.from(
                 {length: totalLiterales},
-                () => {
-                    f.setDate(f.getDate() + 1)
-                    let fIndice = new Date(f)
-                    fIndice.setDate(f.getDate())
+                (v, i) => {
+                    let fIndice = new Date(this.fechaMinBotones.getTime() + i*24*60*60*1000)
                     return {
-                        literal: Fecha.toDiaSemanaHumana(f),
+                        literal: Fecha.toDiaSemanaHumana(fIndice),
                         fecha: fIndice,
-                        selected: Fecha.mismaFecha(this.fechaSeleccionada, fIndice)
+                        selected: Fecha.mismaFecha(Fecha.humana(this.fechaSeleccionada), fIndice)
                     }
                 })
         },
         extraSelectorFecha() {
-            return this.diffFechaMinMax() >= 9
+            return this.fechaMax.getTime() > this.fechaMaxBotones.getTime()
         }
     },
     methods: {
         diffFechaMinMax() {
-            return Math.round(Math.abs((this.fechaMin.getTime() - this.fechaMax.getTime())/(24*60*60*1000)))
+            return Math.round(Math.abs((this.fechaMinBotones.getTime() - this.fechaMaxBotones.getTime())/(24*60*60*1000)))
         },
         selectFecha(fecha) {
             this.$emit('setFecha', fecha)

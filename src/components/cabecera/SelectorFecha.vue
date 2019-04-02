@@ -40,7 +40,8 @@ export default {
     },
     methods: {
         handleChange(e) {
-            const nuevaFecha = new Date(e.target.value + 'T06:00:00')
+            const nuevaFecha = new Date(e.target.value + 'T12:00:00')
+            e.target.blur()
             this.$emit('selectFecha', nuevaFecha)
         }
     }

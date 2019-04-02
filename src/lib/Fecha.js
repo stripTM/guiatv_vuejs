@@ -14,7 +14,7 @@ export default {
             f1.getDate() === f2.getDate()
     },
     toDiaSemanaHumana(f) {
-        const hoy = new Date()
+        const hoy = this.humana(new Date())
         if (this.mismaFecha(hoy, f)) {
             return 'hoy'
         }

@@ -39,16 +39,17 @@ export default {
   },
   data() {
     const now = new Date()
-    let inicio = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7, 12, 0, 0)
+    const humanNow = Fecha.humana(now)
+    let inicio = new Date(humanNow.getFullYear(), humanNow.getMonth(), humanNow.getDate() - 7, 12, 0, 0)
     let fin
-    if(now.getDate() >= 15) {
-      fin = new Date(now.getFullYear(), now.getMonth() + 2, 0, 12, 0, 0)
+    if(humanNow.getDate() >= 15) {
+      fin = new Date(humanNow.getFullYear(), humanNow.getMonth() + 2, 0, 12, 0, 0)
     }
     else {
-      fin = new Date(now.getFullYear(), now.getMonth() + 1, 0, 12, 0, 0)
+      fin = new Date(humanNow.getFullYear(), humanNow.getMonth() + 1, 0, 12, 0, 0)
     }
-    let inicioBotones = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 12, 0, 0)
-    let finBotones = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 6, 12, 0, 0)
+    let inicioBotones = new Date(humanNow.getFullYear(), humanNow.getMonth(), humanNow.getDate() - 1, 12, 0, 0)
+    let finBotones = new Date(humanNow.getFullYear(), humanNow.getMonth(), humanNow.getDate() + 6, 12, 0, 0)
 
     return {
       conf: {

@@ -20,7 +20,8 @@
                     <li ref="ultimo"><button v-if="!completa" :disabled="cargando" v-on:click="cargarMas">{{ getLabelLoadMore }}</button></li>
                 </ul>
                 <ul class="canales" :style="getStyleWidth">
-                    <ParrillaCanal v-for="parrillaCanal in parrilla" :key="parrillaCanal.DATOS_CADENA.CODIGO" :parrillaCanal="parrillaCanal.PROGRAMAS"/>
+                    <ParrillaCanal v-for="parrillaCanal in parrilla" :key="parrillaCanal.DATOS_CADENA.CODIGO" :parrillaCanal="parrillaCanal.PROGRAMAS"
+                    :preventClick="mouseMove"/>
                 </ul>
                 <!--<ul class="canales"><ParrillaCanal v-for="parrillaCanal in parrilla" :key="parrillaCanal.canal.idFake" :parrillaCanal="parrillaCanal"/></ul>-->
             </div>
@@ -58,6 +59,7 @@ export default {
             fechaScrollY: 0,
             observer: null,
             mouseDown: false,
+            mouseMove: false,
             dragStartX: 0,
             dragStaryY: 0,
             dragDistance: 0
@@ -166,11 +168,13 @@ export default {
                 e.preventDefault()
             }
             this.mouseDown = true
+            this.mouseMove = false
             this.dragStartX = ('ontouchstart' in window) ? e.touches[0].clientX : e.clientX
             this.dragStartY = ('ontouchstart' in window) ? e.touches[0].clientY : e.clientY
         },
         handleMouseMove (e) {
             if (this.mouseDown) {
+                this.mouseMove = true
                 let positionX = ('ontouchstart' in window) ? e.touches[0].clientX : e.clientX
                 let positionY = ('ontouchstart' in window) ? e.touches[0].clientY : e.clientY
                 let dragDistanceX = positionX - this.dragStartX
@@ -187,7 +191,7 @@ export default {
                 this.fechaScrollY -= dragDistanceY
                 this.dragStartX += dragDistanceX
                 this.dragStartY += dragDistanceY
-            }
+             }
         },
         handleMouseUp () {
             this.mouseDown = false

@@ -1,5 +1,6 @@
 <template>
   <div id="app-parrilla" :class="getStyle">
+    <!--
     <h1>Guía programación</h1>
     <section id="desarrollo">
       <label>Nº canales: <input name="total_canales" v-model="conf.limiteCanales" type="number" min="0"/></label>
@@ -9,7 +10,6 @@
         <label>Status: {{ status }}</label>
       </div>
     </section>
-    <!--
 
     {{ parrilla }}
     -->

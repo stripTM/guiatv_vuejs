@@ -1,6 +1,6 @@
 <template>
     <li class="er" :style="getStyle">
-        <a v-if="!esCorto" :href="urlFicha">
+        <a v-if="!esCorto" :href="urlFicha" v-on:click="cancelClick">
             <div>
                 <img v-if="esEstreno" src="/css/i/guiaparrilla/estreno.png" class="e" alt="Estreno"/>
                 <span class="h">{{ eventoRejilla.HORA_INICIO }}</span>&nbsp;<span class="g">{{ eventoRejilla.GENERO }}</span>
@@ -15,7 +15,8 @@
 export default {
     name: 'EventoRejilla',
     props: {
-        eventoRejilla: Object
+        eventoRejilla: Object,
+        preventClick: Boolean
     },
     computed: {
         getStyle() {
@@ -35,6 +36,13 @@ export default {
         },
         esDirecto() {
             return this.eventoRejilla.DIRECTO
+        }
+    },
+    methods: {
+        cancelClick(e) {
+            if(this.preventClick) {
+                e.preventDefault()
+            }
         }
     }
 }

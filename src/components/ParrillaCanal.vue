@@ -1,7 +1,11 @@
 <template>
   <li class="canal">
     <ul class="dia">
-      <EventoRejilla v-for="eventoRejilla in parrillaCanal" :key="eventoRejilla.id" :eventoRejilla="eventoRejilla"/>
+      <EventoRejilla
+        v-for="eventoRejilla in parrillaCanal"
+        :key="eventoRejilla.id"
+        :eventoRejilla="eventoRejilla"
+        :preventClick="preventClick"/>
     </ul>
   </li>
 </template>
@@ -14,7 +18,8 @@ export default {
         EventoRejilla
     },
     props: {
-        parrillaCanal: Array
+        parrillaCanal: Array,
+        preventClick: Boolean
     },
 }
 </script>

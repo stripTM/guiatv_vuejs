@@ -50,7 +50,8 @@ export default {
     },
     computed: {
         getBotones() {
-            const totalLiterales = Math.min(this.diffFechaMinMax() + 1, 9)
+            //const totalLiterales = Math.min(this.diffFechaMinMax() + 1, 9)
+            const totalLiterales = this.diffFechaMinMax() + 1
             return Array.from(
                 {length: totalLiterales},
                 (v, i) => {

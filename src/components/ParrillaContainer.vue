@@ -9,7 +9,7 @@
             :fechaMaxBotones="conf.fechaMaxBotones"
             v-on:setFecha="setFecha"/>
         <div class="fecha">{{ getDateScroll | DDMesYYYY }}</div>
-        <div class="out" ref="lienzoParrilla">
+        <div class="out" ref="lienzoParrilla" v-on:scroll="handleScroll">
             <div ref="track" class="in" :style="getStyleWidth">
                 <Timeline :fechaInicio="this.conf.fechaInicio" :fechaFin="this.conf.fechaFin" :ancho="this.conf.ancho"/>
                 <MarcadorParrilla :conf="conf" />
@@ -163,6 +163,10 @@ export default {
         setFecha(nuevaFecha) {
             this.$emit('setFecha', nuevaFecha)
         },
+        handleScroll(e) {
+            this.fechaScrollX = e.target.scrollLeft
+            this.fechaScrollY = e.target.scrollTop
+        },
         handleMouseDown (e) {
             if (!e.touches) {
                 e.preventDefault()
@@ -243,12 +247,12 @@ export default {
     .cabecera .selected {
         background-color: #79b800;
     }
-    .cabecera .extraFecha input[type=date] {
+    .cabecera .extraFecha #guiaCabeceraFecha {
         margin-left: -27px;
         position: absolute;
         opacity: 0;
     }
-    .cabecera .extraFecha input[type=date]:focus {
+    .cabecera .extraFecha #guiaCabeceraFecha:focus {
         opacity: 1;
     }
     .fecha {

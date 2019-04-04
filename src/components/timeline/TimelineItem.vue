@@ -27,7 +27,8 @@ export default {
             }
         },
         timeInString() {
-            return this.pad(this.franja.indice.getHours()) + ':' + this.pad(this.franja.indice.getMinutes())
+            // Desde diseño comentan que las horas mejor sin pad
+            return this.franja.indice.getHours() + ':' + this.pad(this.franja.indice.getMinutes())
         }
     }
 }

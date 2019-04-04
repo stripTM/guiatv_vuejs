@@ -47,7 +47,7 @@ export default {
       }
 
       const intervalo = i * 60 * 1000 // 15, 30, 60 minutos
-      let fIndice = new Date(this.fechaInicio.getTime() + intervalo)
+      let fIndice = new Date(this.fechaInicio.getTime())
       if (intervalo <= 0) return
       let franjas = []
       while(fIndice < this.fechaFin) {

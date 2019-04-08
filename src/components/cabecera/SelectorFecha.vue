@@ -41,13 +41,14 @@ export default {
     methods: {
         handleChange(e) {
             const nuevaFecha = new Date(e.target.value + 'T12:00:00')
-            if (nuevaFecha < this.min || nuevaFecha > this.max) {
+            // Verificar que la nueva fecha cae entre los límites y no es una fecha inválida
+            if (!(nuevaFecha instanceof Date) || isNaN(nuevaFecha) || nuevaFecha < this.min || nuevaFecha > this.max) {
                 e.preventDefault()
                 return
             }
             e.target.blur()
             this.$emit('selectFecha', nuevaFecha)
-        }
+}
     }
 }
 </script>

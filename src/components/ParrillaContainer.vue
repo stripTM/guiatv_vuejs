@@ -9,7 +9,7 @@
             :fechaMaxBotones="conf.fechaMaxBotones"
             v-on:setFecha="setFecha"/>
         <div class="fecha">{{ getDateScroll | DDMesYYYY }}</div>
-        <div class="out" ref="lienzoParrilla">
+        <div class="out" ref="lienzoParrilla" v-on:scroll="handleScroll">
             <div ref="track" class="in" :style="getStyleWidth">
                 <Timeline :fechaInicio="this.conf.fechaInicio" :fechaFin="this.conf.fechaFin" :ancho="this.conf.ancho"/>
                 <MarcadorParrilla :conf="conf" />
@@ -31,6 +31,8 @@
 <script>
 //import FranjaHorario from '../ws/FranjaHorarioDo.js'
 //import FranjaHorario from '../ws/ParrillaDoFake.js'
+// Safari de iPad no implementa el intersection-observer
+require('intersection-observer')
 import CabeceraParrilla from './cabecera/CabeceraParrilla'
 import Timeline from './timeline/Timeline'
 import MarcadorParrilla from './MarcadorParrilla'
@@ -55,14 +57,13 @@ export default {
     },
     data() {
         return {
+            observer: null,
             fechaScrollX: 0,
             fechaScrollY: 0,
-            observer: null,
             mouseDown: false,
             mouseMove: false,
             dragStartX: 0,
-            dragStaryY: 0,
-            dragDistance: 0
+            dragStaryY: 0
         }
     },
     mounted() {
@@ -163,6 +164,10 @@ export default {
         setFecha(nuevaFecha) {
             this.$emit('setFecha', nuevaFecha)
         },
+        handleScroll(e) {
+            this.fechaScrollX = e.target.scrollLeft
+            this.fechaScrollY = e.target.scrollTop
+        },
         handleMouseDown (e) {
             if (!e.touches) {
                 e.preventDefault()
@@ -214,8 +219,16 @@ export default {
     .parrilla.loading .canales {
         opacity: 0.2;
     }
+    .dev-sombras .cabecera:before {
+        display: block;
+        box-shadow: 1em 0 1em -0.5em rgb(34, 34, 34);
+    }
+    .outCabecera {
+        width: 100%;
+        overflow: auto;
+        /* overflow-x: hidden; */
+    }
     .cabecera {
-        width: 100vw;
         padding: 0;
         margin: 0 0 0.7rem 0;
         list-style-type: none;
@@ -223,7 +236,6 @@ export default {
         justify-content: left;
         flex-flow: row nowrap;
         align-items: stretch;
-        overflow: auto;
     }
     .cabecera .opcion {
         background-color: #1b1b1b;
@@ -232,6 +244,7 @@ export default {
         margin: 0 0.2rem;
         border-radius: 0.2rem;
         text-transform: capitalize;
+        white-space: nowrap;
     }
     .cabecera .opcion a:link,
     .cabecera .opcion a:visited,
@@ -243,13 +256,20 @@ export default {
     .cabecera .selected {
         background-color: #79b800;
     }
-    .cabecera .extraFecha input[type=date] {
-        margin-left: -27px;
-        position: absolute;
-        opacity: 0;
+    .cabecera .extraFecha {
+        margin-right: 1em;
+        position: relative;
     }
-    .cabecera .extraFecha input[type=date]:focus {
+    .cabecera .extraFecha #guiaCabeceraFecha {
+        right: 0;
+        position: absolute;
+        z-index: 10;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .cabecera .extraFecha #guiaCabeceraFecha:focus {
         opacity: 1;
+        pointer-events: auto;
     }
     .fecha {
         position: absolute;

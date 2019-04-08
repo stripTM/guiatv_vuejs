@@ -23,6 +23,12 @@ export default {
         }
         // No compatible con Safari f.toLocaleString('es-ES', {weekday: 'long'})
         const literalDiaSemana = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
-        return literalDiaSemana[f.getDay()]
+        // Si la fecha es anterior a hoy mostramos el día del mes, ej, domingo 20
+        if (f.getTime() < hoy.getTime()) {
+            return literalDiaSemana[f.getDay()] + ' ' + f.getDate()
+        }
+        else {
+            return literalDiaSemana[f.getDay()]
+        }
     }
 }

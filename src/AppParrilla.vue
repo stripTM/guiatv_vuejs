@@ -40,7 +40,7 @@ export default {
   data() {
     const now = new Date()
     const humanNow = Fecha.humana(now)
-    let inicio = new Date(humanNow.getFullYear(), humanNow.getMonth(), humanNow.getDate() - 7, 12, 0, 0)
+    let inicio = new Date(humanNow.getFullYear(), humanNow.getMonth(), humanNow.getDate() - 6, 12, 0, 0)
     let fin
     if(humanNow.getDate() >= 15) {
       fin = new Date(humanNow.getFullYear(), humanNow.getMonth() + 2, 0, 12, 0, 0)
@@ -48,7 +48,7 @@ export default {
     else {
       fin = new Date(humanNow.getFullYear(), humanNow.getMonth() + 1, 0, 12, 0, 0)
     }
-    let inicioBotones = new Date(humanNow.getFullYear(), humanNow.getMonth(), humanNow.getDate() - 1, 12, 0, 0)
+    let inicioBotones = new Date(humanNow.getFullYear(), humanNow.getMonth(), humanNow.getDate() - 6, 12, 0, 0)
     let finBotones = new Date(humanNow.getFullYear(), humanNow.getMonth(), humanNow.getDate() + 6, 12, 0, 0)
 
     return {
@@ -78,7 +78,7 @@ export default {
       this.status = 'loading'
       const fechaH = Fecha.humana(this.conf.fecha)
       const fakeRejilla = fechaH.getDay() % 2
-      const endPoint = `rejilla${fakeRejilla}.json?f=${fechaH.toISOString().split('T')[0]}&a=${this.conf.ancho}`
+      const endPoint = `rejilla${fakeRejilla}.json?f=${fechaH.toISOString().split('T')[0]}&ps=${this.conf.ancho/24/60}`
       axios.get(endPoint)
         .then((response) => {
           this.parrilla = response.data.data

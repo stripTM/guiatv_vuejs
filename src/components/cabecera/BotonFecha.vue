@@ -18,6 +18,9 @@ export default {
         },
         selected: Boolean
     },
+    mounted() {
+        this.$emit('offSetLeft', this.$el.offsetLeft, this.fecha, this.selected)
+    },
     methods: {
         selectFecha() {
             this.$emit('selectFecha', this.fecha)

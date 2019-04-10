@@ -9,8 +9,8 @@
             :fechaMaxBotones="conf.fechaMaxBotones"
             v-on:setFecha="setFecha"/>
         <div class="fecha">{{ getDateScroll | DDMesYYYY }}</div>
-        <div class="out" ref="lienzoParrilla" v-on:scroll="handleScroll">
-            <div ref="track" class="in" :style="getStyleWidth">
+        <div class="out" ref="drag" v-on:scroll="handleScroll">
+            <div class="in" :style="getStyleWidth">
                 <Timeline :fechaInicio="this.conf.fechaInicio" :fechaFin="this.conf.fechaFin" :ancho="this.conf.ancho"/>
                 <MarcadorParrilla :conf="conf" />
                 <ul class="logos">

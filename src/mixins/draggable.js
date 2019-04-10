@@ -12,33 +12,33 @@ export const draggable = {
     watch: {
         // El scroll de la parrilla no es algo que está presente en el dom, con lo que hay que mantener manualmente el binding
         scrollX(newScroll) {
-            this.$refs.lienzoParrilla.scrollLeft = newScroll
+            this.$refs.drag.scrollLeft = newScroll
         },
         scrollY(newScroll) {
-            this.$refs.lienzoParrilla.scrollTop = newScroll
+            this.$refs.drag.scrollTop = newScroll
         }
     },
     mounted() {
         if ('ontouchstart' in window) {
-            this.$refs.track.addEventListener('touchstart', this.handleMouseDown)
-            this.$refs.track.addEventListener('touchend', this.handleMouseUp)
-            this.$refs.track.addEventListener('touchmove', this.handleMouseMove)
+            this.$refs.drag.addEventListener('touchstart', this.handleMouseDown)
+            this.$refs.drag.addEventListener('touchend', this.handleMouseUp)
+            this.$refs.drag.addEventListener('touchmove', this.handleMouseMove)
         } else {
-            this.$refs.track.addEventListener('mousedown', this.handleMouseDown)
-            this.$refs.track.addEventListener('mouseup', this.handleMouseUp)
-            this.$refs.track.addEventListener('mousemove', this.handleMouseMove)
+            this.$refs.drag.addEventListener('mousedown', this.handleMouseDown)
+            this.$refs.drag.addEventListener('mouseup', this.handleMouseUp)
+            this.$refs.drag.addEventListener('mousemove', this.handleMouseMove)
         }
     },
     destroyed() {
-        if (this.$refs.track) {
+        if (this.$refs.drag) {
             if ('ontouchstart' in window) {
-                this.$refs.track.removeEventListener('touchstart', this.handleMouseDown)
-                this.$refs.track.removeEventListener('touchend', this.handleMouseUp)
-                this.$refs.track.removeEventListener('touchmove', this.handleMouseMove)
+                this.$refs.drag.removeEventListener('touchstart', this.handleMouseDown)
+                this.$refs.drag.removeEventListener('touchend', this.handleMouseUp)
+                this.$refs.drag.removeEventListener('touchmove', this.handleMouseMove)
             } else {
-                this.$refs.track.removeEventListener('mousedown', this.handleMouseDown)
-                this.$refs.track.removeEventListener('mouseup', this.handleMouseUp)
-                this.$refs.track.removeEventListener('mousemove', this.handleMouseMove)
+                this.$refs.drag.removeEventListener('mousedown', this.handleMouseDown)
+                this.$refs.drag.removeEventListener('mouseup', this.handleMouseUp)
+                this.$refs.drag.removeEventListener('mousemove', this.handleMouseMove)
             }
         }
     },

@@ -1,17 +1,19 @@
 <template>
-    <div class="outCabecera" ref="lienzoParrilla" v-on:scroll="handleScroll">
-        <ul class="cabecera" ref="track">
+    <div class="outCabecera" ref="drag" v-on:scroll="handleScroll">
+        <ul class="cabecera">
             <BotonFecha v-for="boton in getBotones" v-bind:key="boton.fecha.getTime()"
                 :literal="boton.literal"
                 :fecha="boton.fecha"
                 :selected="boton.selected"
+                :preventClick="mouseMove"
                 v-on:offSetLeft="scrollToSelected"
                 v-on:selectFecha="selectFecha"/>
             <SelectorFecha
                 v-if="extraSelectorFecha"
-                v-bind:value="fechaSeleccionada"
-                v-bind:min="fechaMin"
-                v-bind:max="fechaMax"
+                :value="fechaSeleccionada"
+                :min="fechaMin"
+                :max="fechaMax"
+                :preventClick="mouseMove"
                 v-on:selectFecha="selectFecha"/>
         </ul>
     </div>

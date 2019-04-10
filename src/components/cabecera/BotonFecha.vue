@@ -1,7 +1,7 @@
 <template>
     <li :class="getClass" v-bind:title="toYYYYMMDD">
         <span v-if="selected">{{ literal }}</span>
-        <a v-else :href="getUrl" v-on:click.prevent="selectFecha">{{ literal }}</a>
+        <a v-else :href="getUrl" v-on:click="selectFecha">{{ literal }}</a>
     </li>
 </template>
 <script>
@@ -16,14 +16,18 @@ export default {
             type: Date,
             required: true
         },
-        selected: Boolean
+        selected: Boolean,
+        preventClick: Boolean
     },
     mounted() {
         this.$emit('offSetLeft', this.$el.offsetLeft, this.fecha, this.selected)
     },
     methods: {
-        selectFecha() {
-            this.$emit('selectFecha', this.fecha)
+        selectFecha(e) {
+            if(!this.preventClick) {
+                this.$emit('selectFecha', this.fecha)
+            }
+            e.preventDefault()
         }
     },
     computed: {

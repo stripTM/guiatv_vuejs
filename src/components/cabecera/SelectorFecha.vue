@@ -1,11 +1,12 @@
 <template>
     <li class="extraFecha">
-        <label for="guiaCabeceraFecha"><img src="/css/i/guiaparrilla/ico-calendar.png" alt="Seleccionar fecha"/></label>
+        <label for="guiaCabeceraFecha" v-on:click="cancelClick"><img src="/css/i/guiaparrilla/ico-calendar.png" alt="Seleccionar fecha"/></label>
         <input id="guiaCabeceraFecha" type="date"
             v-bind:value="value | toInput"
             v-bind:min="min | toInput"
             v-bind:max="max | toInput"
-            v-on:change="handleChange"/>
+            v-on:change="handleChange"
+            v-on:click="cancelClick"/>
     </li>
 </template>
 
@@ -24,6 +25,10 @@ export default {
         },
         max: {
             type: Date,
+            required: false
+        },
+        preventClick: {
+            type: Boolean,
             required: false
         }
     },
@@ -48,7 +53,12 @@ export default {
             }
             e.target.blur()
             this.$emit('selectFecha', nuevaFecha)
-}
+        },
+        cancelClick(e) {
+            if(this.preventClick) {
+                e.preventDefault()
+            }
+        }
     }
 }
 </script>

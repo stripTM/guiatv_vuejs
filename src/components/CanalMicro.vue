@@ -1,5 +1,5 @@
 <template>
-    <a href="playercanal" :title="nombre"><span class="dial">{{ dial }}</span><img :src="urlLogo" :alt="altLogo"/></a>
+    <a href="playercanal" :title="nombre"><span v-if="dial" class="dial">{{ dial }}</span><img :src="urlLogo" :alt="altLogo"/></a>
 </template>
 <script>
 export default {

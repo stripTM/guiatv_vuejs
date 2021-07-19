@@ -7,8 +7,9 @@
             :fechaMax="conf.fechaMax"
             :fechaMinBotones="conf.fechaMinBotones"
             :fechaMaxBotones="conf.fechaMaxBotones"
+            :fechaScroll="getDateScroll"
             v-on:setFecha="setFecha"/>
-        <div class="fecha">{{ getDateScroll | DDMesYYYY }}</div>
+
         <div class="out" ref="drag" v-on:scroll="handleScroll">
             <div class="in" :style="getStyleWidth">
                 <Timeline :fechaInicio="this.conf.fechaInicio" :fechaFin="this.conf.fechaFin" :ancho="this.conf.ancho"/>
@@ -100,13 +101,6 @@ export default {
             return new Date(this.scrollX / this.conf.ancho * (this.conf.fechaFin.getTime() - this.conf.fechaInicio.getTime()) + this.conf.fechaInicio.getTime())
         }
     },
-    filters: {
-        DDMesYYYY(fecha) {
-            const mes = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciciembre']
-            //const fechaH = Fecha.humana(fecha)
-            return fecha.getDate() + ' ' + mes[fecha.getMonth()] + ' ' + fecha.getFullYear()
-        }
-    },
     methods: {
         moverAAnchor() {
             // Pasar de fecha-ancla de tipo Date a pixeles
@@ -131,6 +125,16 @@ export default {
 }
 </script>
 <style>
+    .parrilla {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .parrilla .out{
+        flex: 1;
+    }
     .parrilla.loading .canales {
         opacity: 0.2;
     }
@@ -145,7 +149,7 @@ export default {
     }
     .cabecera {
         padding: 0;
-        margin: 0 0 0.7rem 0;
+        margin: 0 0 0.7rem 164px;
         list-style-type: none;
         display: flex;
         justify-content: left;
@@ -203,8 +207,8 @@ export default {
     .out {
         font-family: Arial, sans-serif;
         font-size: 0.8125em;
-        width: 100vw;
-        height: 100vh;
+        /* width: 100vw;
+        height: 100vh; */
         overflow: auto;
         /*scroll-behavior: smooth;*/
         position: relative;

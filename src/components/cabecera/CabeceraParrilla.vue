@@ -1,5 +1,6 @@
 <template>
     <div class="outCabecera" ref="drag" v-on:scroll="handleScroll">
+        <div class="fecha">{{ fechaScroll | DDMesYYYY }}</div>
         <ul class="cabecera">
             <BotonFecha v-for="boton in getBotones" v-bind:key="boton.fecha.getTime()"
                 :literal="boton.literal"
@@ -47,11 +48,22 @@ export default {
         fechaMaxBotones: {
             type: Date,
             required: true
+        },
+        fechaScroll: {
+            type: Date,
+            required: true
         }
     },
     components: {
         BotonFecha,
         SelectorFecha
+    },
+    filters: {
+        DDMesYYYY(fecha) {
+            const mes = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciciembre']
+            //const fechaH = Fecha.humana(fecha)
+            return fecha.getDate() + ' ' + mes[fecha.getMonth()] + ' ' + fecha.getFullYear()
+        }
     },
     computed: {
         getBotones() {
